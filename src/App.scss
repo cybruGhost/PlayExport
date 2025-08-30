@@ -1,0 +1,540 @@
+// =============================================
+// Variables
+// =============================================
+
+// Colors
+$spotify-green: #1db954;
+$spotify-black: #191414;
+$spotify-dark-gray: #121212;
+$spotify-light-gray: #b3b3b3;
+$spotify-white: #ffffff;
+$accent-color: #84bd00;
+
+// Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-xxl: 40px;
+
+// Breakpoints
+$phone: 576px;
+$tablet: 768px;
+$desktop: 992px;
+
+// =============================================
+// Base Styles
+// =============================================
+
+.App-header {
+  padding: $spacing-xl $spacing-md;
+  text-align: center;
+  position: relative;
+  background: linear-gradient(135deg, $spotify-black 0%, $spotify-dark-gray 100%);
+  color: $spotify-white;
+  
+  @media (min-width: $tablet) {
+    padding: $spacing-xxl $spacing-md;
+  }
+}
+
+#spotifyErrorMessage {
+  text-align: center;
+  background: rgba(#e22134, 0.1);
+  border: 1px solid rgba(#e22134, 0.3);
+  border-radius: 4px;
+  padding: $spacing-md;
+  margin: $spacing-md;
+  color: #e22134;
+  font-weight: 500;
+  
+  @media (min-width: $tablet) {
+    margin: $spacing-md auto;
+    max-width: 500px;
+  }
+}
+
+// =============================================
+// Buttons & Controls
+// =============================================
+
+#loginButton {
+  display: block;
+  margin: $spacing-lg auto;
+  padding: $spacing-md $spacing-lg;
+  background: $spotify-green;
+  color: white;
+  border: none;
+  border-radius: 500px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 80%;
+  max-width: 240px;
+  
+  &:hover {
+    background: lighten($spotify-green, 5%);
+    transform: scale(1.05);
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+  
+  @media (min-width: $tablet) {
+    margin: $spacing-xl auto;
+    padding: $spacing-md $spacing-xl;
+    font-size: 1rem;
+    width: auto;
+  }
+}
+
+#topMenu {
+  position: static;
+  display: flex;
+  justify-content: center;
+  padding: $spacing-sm 0;
+  gap: $spacing-xs;
+  margin-bottom: $spacing-md;
+  
+  button {
+    color: $spotify-light-gray;
+    padding: $spacing-sm;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+
+    &:hover {
+      color: silver;
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+  
+  @media (min-width: $tablet) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: $spacing-lg 0;
+    justify-content: flex-end;
+    margin-bottom: 0;
+    
+    button {
+      padding: $spacing-md $spacing-sm;
+      font-size: 1rem;
+    }
+  }
+}
+
+#languageDropdown {
+  .dropdown-menu {
+    // Mobile-first dropdown styling
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 12px 12px 0 0;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    
+    @media (min-width: $tablet) {
+      position: absolute;
+      bottom: auto;
+      left: auto;
+      right: auto;
+      border-radius: 4px;
+      transform: none;
+    }
+  }
+  
+  .dropdown-item {
+    padding: $spacing-md;
+    
+    svg {
+      &.selected {
+        color: $spotify-green;
+      }
+
+      &:not(.selected) {
+        opacity: 0.3;
+      }
+    }
+  }
+}
+
+// =============================================
+// Animations
+// =============================================
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// =============================================
+// Playlists Section - Mobile First
+// =============================================
+
+#playlists {
+  animation: fadeIn 1s;
+  margin: $spacing-lg $spacing-sm;
+  
+  @media (min-width: $tablet) {
+    margin: $spacing-xl auto;
+    max-width: 1200px;
+    padding: 0 $spacing-md;
+  }
+
+  // Mobile cards view instead of table
+  .playlist-card {
+    background: $spotify-dark-gray;
+    border-radius: 8px;
+    padding: $spacing-md;
+    margin-bottom: $spacing-md;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    
+    .playlist-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: $spacing-md;
+      
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 4px;
+        margin-right: $spacing-md;
+      }
+      
+      .playlist-info {
+        flex: 1;
+        
+        h3 {
+          margin: 0 0 $spacing-xs 0;
+          font-size: 1rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        
+        p {
+          margin: 0;
+          color: $spotify-light-gray;
+          font-size: 0.8rem;
+        }
+      }
+    }
+    
+    .playlist-details {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: $spacing-sm;
+      margin-bottom: $spacing-md;
+      
+      .detail {
+        text-align: center;
+        
+        .label {
+          display: block;
+          font-size: 0.7rem;
+          color: $spotify-light-gray;
+          margin-bottom: $spacing-xs;
+        }
+        
+        .value {
+          display: block;
+          font-weight: 600;
+        }
+      }
+    }
+    
+    .playlist-actions {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  // Table view for larger screens
+  @media (min-width: $tablet) {
+    .playlist-card {
+      display: none;
+    }
+    
+    table {
+      display: table;
+      background: $spotify-dark-gray;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      width: 100%;
+
+      thead {
+        background: rgba(255, 255, 255, 0.05);
+
+        th {
+          border-top-width: 0;
+          padding: $spacing-md;
+          color: $spotify-white;
+
+          &.icon {
+            width: 30px;
+          }
+
+          &.owner {
+            width: 150px;
+          }
+
+          &.tracks {
+            width: 100px;
+          }
+
+          &.public,
+          &.collaborative {
+            width: 120px;
+          }
+
+          &.export {
+            width: 100px;
+          }
+        }
+      }
+
+      tbody {
+        tr:hover {
+          background: rgba(255, 255, 255, 0.02);
+        }
+
+        td {
+          padding: $spacing-md;
+          color: $spotify-light-gray;
+        }
+      }
+
+      &.table-sm {
+        td, th {
+          padding: $spacing-sm;
+        }
+      }
+    }
+  }
+  
+  // Hide table on mobile
+  table {
+    display: none;
+    
+    @media (min-width: $tablet) {
+      display: table;
+    }
+  }
+}
+
+#playlistsHeader {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  margin: $spacing-lg $spacing-sm $spacing-md;
+  
+  .progress {
+    order: 1;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+
+    .progress-bar {
+      background: $spotify-green;
+      white-space: nowrap;
+      padding: 0 $spacing-sm;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+
+      &[aria-valuenow="0"] {
+        transition: none;
+      }
+    }
+  }
+  
+  form {
+    order: 2;
+    
+    input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      color: $spotify-white;
+      padding: $spacing-sm $spacing-md;
+      
+      &:focus {
+        outline: none;
+        border-color: $spotify-green;
+      }
+    }
+  }
+  
+  .paginator {
+    order: 3;
+    display: flex;
+    justify-content: center;
+  }
+  
+  @media (min-width: $tablet) {
+    flex-direction: row-reverse;
+    align-items: center;
+    margin: 0 0 $spacing-lg 0;
+    
+    .progress {
+      order: 0;
+      flex-grow: 1;
+      height: 30px;
+      margin: 0;
+      
+      .progress-bar {
+        padding: 4px 10px;
+        font-size: 1rem;
+      }
+    }
+    
+    form {
+      order: 0;
+      margin-left: $spacing-md;
+      
+      input {
+        width: auto;
+        min-width: 200px;
+      }
+    }
+    
+    .paginator {
+      order: 0;
+      margin-left: $spacing-md;
+    }
+  }
+}
+
+#playlistsFooter {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: $spacing-md;
+  margin: $spacing-lg $spacing-sm;
+  
+  @media (min-width: $tablet) {
+    flex-direction: row-reverse;
+    margin: $spacing-xl 0 0 0;
+  }
+}
+
+// =============================================
+// Loading Spinner
+// =============================================
+
+.spinner {
+  min-width: 24px;
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: $spacing-xl auto;
+
+  &:not(:required):before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(236, 235, 232, 1);
+    border-top-color: rgba(130, 130, 130, 1);
+    animation: spinner 1s linear infinite;
+  }
+}
+
+// =============================================
+// Ribbon - Mobile responsive
+// =============================================
+
+.ribbon {
+  background-color: $accent-color;
+  overflow: hidden;
+  white-space: nowrap;
+  position: absolute;
+  left: -50px;
+  top: 30px;
+  transform: rotate(-45deg);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  display: none;
+  
+  a {
+    border: 1px solid darken($accent-color, 5%);
+    color: $spotify-white;
+    display: block;
+    font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 1px 0;
+    padding: 8px 40px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  
+  @media (min-width: $tablet) {
+    display: block;
+    top: 40px;
+    
+    a {
+      padding: 10px 50px;
+    }
+  }
+}
+
+// =============================================
+// Utility Classes
+// =============================================
+
+// Hide elements on mobile
+.mobile-only {
+  display: block;
+  
+  @media (min-width: $tablet) {
+    display: none;
+  }
+}
+
+// Hide elements on desktop
+.desktop-only {
+  display: none;
+  
+  @media (min-width: $tablet) {
+    display: block;
+  }
+}
+
+// Responsive text
+.text-sm {
+  font-size: 0.8rem;
+}
+
+@media (min-width: $tablet) {
+  .text-sm {
+    font-size: 1rem;
+  }
+}

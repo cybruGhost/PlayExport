@@ -1,0 +1,423 @@
+// =============================================
+// Bootstrap Variables & Import
+// =============================================
+
+// Bootstrap variables
+$link-color: #337ab7;
+$primary: #1db954; // Spotify green
+$table-hover-bg: rgba(#000, .025);
+$btn-transition: none;
+$body-color: #191414; // Spotify black
+$input-btn-focus-box-shadow: none;
+$input-placeholder-color: #b3b3b3; // Spotify light gray
+$link-decoration: none;
+$link-hover-decoration: underline;
+$pagination-focus-box-shadow: none;
+$pagination-focus-bg: none;
+$border-radius: 8px;
+$border-radius-sm: 4px;
+
+// Import Bootstrap
+@import "~bootstrap/scss/bootstrap";
+
+// =============================================
+// Custom Variables
+// =============================================
+
+// Spotify color palette
+$spotify-green: #1db954;
+$spotify-black: #191414;
+$spotify-dark-gray: #121212;
+$spotify-light-gray: #b3b3b3;
+$spotify-white: #ffffff;
+
+// Theme variables
+$text-primary: $spotify-white;
+$text-secondary: $spotify-light-gray;
+$background-primary: $spotify-dark-gray;
+$background-secondary: #181818;
+$accent-color: #84bd00;
+
+// Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-xxl: 48px;
+
+// =============================================
+// Base Styles
+// =============================================
+
+body {
+  background-color: $background-primary;
+  color: $text-primary;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.App-header {
+  padding: $spacing-xxl $spacing-md;
+  text-align: center;
+  position: relative;
+  background: linear-gradient(135deg, $spotify-black 0%, $background-primary 100%);
+  color: $text-primary;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  
+  @media (max-width: 768px) {
+    padding: $spacing-xl $spacing-sm;
+  }
+}
+
+h1 a {
+  color: var(--bs-dark);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--bs-dark);
+    text-decoration: none;
+  }
+}
+
+// =============================================
+// Component Styles
+// =============================================
+
+#spotifyErrorMessage {
+  text-align: center;
+  background: rgba(#e22134, 0.1);
+  border: 1px solid rgba(#e22134, 0.3);
+  border-radius: $border-radius;
+  padding: $spacing-md;
+  margin: $spacing-md auto;
+  max-width: 500px;
+  color: #e22134;
+  font-weight: 500;
+}
+
+#loginButton {
+  display: block;
+  margin: $spacing-xl auto;
+  padding: $spacing-md $spacing-xl;
+  background: $spotify-green;
+  color: white;
+  border: none;
+  border-radius: 500px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: lighten($spotify-green, 5%);
+    transform: scale(1.05);
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+#topMenu {
+  position: absolute;
+  top: $spacing-md;
+  right: $spacing-md;
+  padding: $spacing-md 0;
+  display: flex;
+  gap: $spacing-sm;
+
+  button {
+    color: $text-secondary;
+    padding: $spacing-md $spacing-sm;
+    background: transparent;
+    border: none;
+    border-radius: $border-radius;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: silver;
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+#languageDropdown {
+  .dropdown-menu {
+    background: $background-secondary;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: $border-radius;
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-sm $spacing-md;
+    color: $text-primary;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    svg {
+      &.selected {
+        color: $spotify-green;
+      }
+
+      &:not(.selected) {
+        opacity: 0.3;
+      }
+    }
+  }
+}
+
+// Playlists section
+#playlists {
+  animation: fadeIn 1s;
+  margin: $spacing-xl auto;
+  max-width: 1200px;
+  padding: 0 $spacing-md;
+
+  table {
+    background: $background-secondary;
+    border-radius: $border-radius;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+    thead {
+      background: rgba(255, 255, 255, 0.05);
+
+      th {
+        border-top-width: 0;
+        padding: $spacing-md;
+        color: $text-primary;
+
+        &.icon {
+          width: 30px;
+        }
+
+        &.owner {
+          width: 150px;
+        }
+
+        &.tracks {
+          width: 100px;
+        }
+
+        &.public,
+        &.collaborative {
+          width: 120px;
+        }
+
+        &.export {
+          width: 100px;
+        }
+      }
+    }
+
+    tbody {
+      tr:hover {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      td {
+        padding: $spacing-md;
+        color: $text-secondary;
+      }
+    }
+
+    &.table-sm {
+      td, th {
+        padding: $spacing-sm;
+      }
+    }
+  }
+}
+
+#playlistsHeader {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-bottom: $spacing-lg;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+
+  .paginator {
+    margin-left: $spacing-md;
+  }
+
+  .progress {
+    flex-grow: 1;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+
+    .progress-bar {
+      background: $spotify-green;
+      white-space: nowrap;
+      padding: 4px 10px;
+      text-align: left;
+
+      &[aria-valuenow="0"] {
+        transition: none;
+      }
+    }
+  }
+
+  form {
+    margin-left: $spacing-md;
+    
+    input {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: $border-radius;
+      color: $text-primary;
+      padding: $spacing-sm $spacing-md;
+      
+      &:focus {
+        outline: none;
+        border-color: $spotify-green;
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    
+    .progress, form {
+      margin-left: 0;
+    }
+  }
+}
+
+#playlistsFooter {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: $spacing-md;
+  margin-top: $spacing-xl;
+}
+
+// =============================================
+// Animations & Effects
+// =============================================
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  min-width: 24px;
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: $spacing-xl auto;
+
+  &:not(:required):before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(236, 235, 232, 1);
+    border-top-color: rgba(130, 130, 130, 1);
+    animation: spinner 1s linear infinite;
+  }
+}
+
+.ribbon {
+  background-color: $accent-color;
+  overflow: hidden;
+  white-space: nowrap;
+  position: absolute;
+  left: -50px;
+  top: 40px;
+  transform: rotate(-45deg);
+  box-shadow: 0 0 10px #888;
+
+  a {
+    border: 1px solid darken($accent-color, 5%);
+    color: $text-primary;
+    display: block;
+    font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 1px 0;
+    padding: 10px 50px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 0 5px #444;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// =============================================
+// Dark Mode
+// =============================================
+
+@include color-mode(dark) {
+  h1 a,
+  h1 a:hover {
+    color: var(--bs-light);
+  }
+
+  input::placeholder {
+    opacity: 0.3;
+    color: $text-secondary;
+  }
+}
+
+// =============================================
+// Small Button Styles
+// =============================================
+
+$btn-padding-x-xs: .35rem !default;
+$btn-padding-y-xs: .12rem !default;
+$input-btn-line-height-xs: 1.3 !default;
+
+.btn-primary {
+  color: #fff !important;
+}
+
+.btn.btn-xs {
+  padding: $btn-padding-y-xs $btn-padding-x-xs;
+  font-size: $font-size-sm;
+  line-height: $input-btn-line-height-xs;
+  border-radius: $border-radius-sm;
+}
+
+#languageDropdown {
+  display: inline;
+}
+
+// =============================================
+// Utility Classes
+// =============================================
+
+.text-center {
+  text-align: center;
+}
+
+.mt-2 {
+  margin-top: $spacing-xl;
+}
+
+.mb-2 {
+  margin-bottom: $spacing-xl;
+}
